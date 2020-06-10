@@ -7,8 +7,14 @@ class SpeedTester:
         self.input = ""
 
     def start_program(self):
-        wait = input("Press the <ENTER> key to start typing:\n" + self.text)
-        self.start_typing()
+        if self.wait("Press the <ENTER> key to start typing:\n" + str(self.text)):
+            self.start_typing()
+
+    def wait(self, text):
+        wait = input(text)
+        print(str(wait))
+        if wait == "":
+            return True
 
     def start_typing(self):
         self.starting_time = time.time()
@@ -22,5 +28,4 @@ class SpeedTester:
 
     def end_typing(self):
         pass
-
 

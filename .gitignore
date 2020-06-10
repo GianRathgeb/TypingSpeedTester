@@ -1,0 +1,4 @@
+#Ignored Python Files/Directories
+__pycache__/
+*.py[cod]
+*$py.class
