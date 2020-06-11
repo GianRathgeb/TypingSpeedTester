@@ -25,7 +25,7 @@ class SpeedTester:
 
 
     def check_text(self):
-        for i in range (0, len(self.input) -1 ):
+        for i in range (0, len(self.input)):
             if self.text[i] != self.input[i]:
                 self.fails += 1
                 # TODO Write function to check if text is correct and how many fails
