@@ -1,4 +1,4 @@
-from modules import classes
+import classes as classes
 
-program = classes.SpeedTester("Hello World")
-program.start_program()
+typing_test = classes.SpeedTester()
+

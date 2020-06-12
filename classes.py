@@ -1,41 +1,38 @@
-from modules import time, keyboard
-
+import pygame
+from pygame.locals import *
+import sys
+import time
+import random
 
 class SpeedTester:
-    def __init__(self, text):
-        self.text = text
-        self.input = ""
-        self.fails = 0
-
-    def start_program(self):
-        if self.wait("Press the <ENTER> key to start typing:\n" + str(self.text)):
-            self.start_typing()
-            self.end_typing()
-            self.check_text()
-
-    def wait(self, text):
-        wait = input(text)
-        print(str(wait))
-        if wait == "":
-            return True
-
-    def start_typing(self):
-        self.starting_time = time.time()
-        self.input = input("\n")
+    def __init__(self):
+        self.width = 750
+        self.height = 500
+        self.reset = True
+        self.active = False
+        self.input_text = ''
+        self.word = ''
+        self.start_time = 0
+        self.time_total = 0
+        self.accuracy = '0%'
+        self.result = 'Time:0 Accuracy:0 % Wpm:0'
+        self.wpm = 0
+        self.end = False
+        self.COLOR_HEADER = (255, 213, 102)
+        self.COLOR_TEXT = (240, 240, 240)
+        self.COLOR_RESULT = (255, 70, 70)
 
 
-    def check_text(self):
-        for i in range (0, len(self.input)):
-            if self.text[i] != self.input[i]:
-                self.fails += 1
-                # TODO Write function to check if text is correct and how many fails
-            else:
-                pass # Do nothing
-        print(self.fails)
-                
+        pygame.init()
+        self.img_open = pygame.image.load('img/type-speed-open.png')
+        self.img_open = pygame.transform.scale(self.img_open, (self.width, self.height))
 
-    def end_typing(self):
-        self.time = time.time() - self.starting_time
-        print(self.input)
-        print(self.time)
 
+        self.background = pygame.image.load('img/background.jpg')
+        self.background = pygame.transform.scale(self.background, (500,750))
+        self.screen = pygame.display.set_mode((self.width, self.height))
+        pygame.display.set_caption('Typing Speed Tester')
+
+
+
+   
