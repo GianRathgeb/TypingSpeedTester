@@ -15,23 +15,21 @@ class SpeedTester:
 
     def wait(self, text):
         wait = input(text)
-        print(str(wait))
-        if wait == "":
-            return True
 
     def start_typing(self):
         self.starting_time = time.time()
         self.input = input("\n")
 
 
-    def check_text(self):
-        for i in range (0, len(self.input)):
-            if self.text[i] != self.input[i]:
-                self.fails += 1
+    def check_text(self, letter):
 
-                # TODO Write function to check if text is correct and how many fails
-            else:
-                pass # Do nothing
+        if self.text[letter] != self.input[letter]:
+            self.fails += 1
+
+            # TODO Write function to check if text is correct and how many fails
+            # Check input letter
+            # If letter is correct print letter and store it in variable
+
         print("Fehler" + str(self.fails))
 
 
