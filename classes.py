@@ -20,11 +20,12 @@ class SpeedTester:
         self.COLOR_RESULT = (255, 70, 70)
 
         pygame.init()
-        self.img_open = pygame.image.load('img/type-speed-open.png')
+        self.img_open = pygame.image.load('img/loading-screens/loading-gif.gif')
         self.img_open = pygame.transform.scale(self.img_open, (self.width, self.height))
 
-        self.background = pygame.image.load('img/background.jpg')
-        self.background = pygame.transform.scale(self.background, (self.height, self.width))
+        self.background = pygame.image.load('img/bg/geometrical.jpg')
+        # Next line not needed for all images
+        #self.background = pygame.transform.scale(self.background, (self.height, self.width))
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption('Typing Speed Tester')
 
@@ -78,7 +79,7 @@ class SpeedTester:
     def reset_game(self):
         self.screen.blit(self.img_open, (0, 0))
         pygame.display.update()
-        time.sleep(0.5)
+        time.sleep(1)
         # TODO check if code below could replaced by self.__init__()
         self.reset = False
         self.end = False
@@ -131,9 +132,8 @@ class SpeedTester:
                     if event.key == K_ESCAPE:
                         self.running = False
                         sys.exit(0)
-                    elif self.active and self.end:
-                        if event.key == pygame.K_TAB:
-                            self.reset_game()
+                    elif event.key == pygame.K_TAB:
+                        self.reset_game()
                     elif self.active and not self.end:
                         if event.key == pygame.K_RETURN:
                             print(self.input_text)
@@ -143,8 +143,6 @@ class SpeedTester:
                             self.end = True
                         elif event.key == pygame.K_BACKSPACE:
                             self.input_text = self.input_text[:-1]
-                        elif event.key == pygame.K_TAB:
-                            self.reset_game()
                         else:
                             try:
                                 self.input_text += event.unicode
