@@ -1,4 +1,5 @@
-#Ignored Python Files/Directories
+# Ignored Python Files/Directories
+# Not needed in Pycharm but in VSCode
 __pycache__/
 *.py[cod]
 *$py.class
