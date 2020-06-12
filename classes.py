@@ -28,11 +28,13 @@ class SpeedTester:
         for i in range (0, len(self.input)):
             if self.text[i] != self.input[i]:
                 self.fails += 1
+
                 # TODO Write function to check if text is correct and how many fails
             else:
                 pass # Do nothing
         print(self.fails)
-                
+
+
 
     def end_typing(self):
         self.time = time.time() - self.starting_time
