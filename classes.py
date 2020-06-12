@@ -128,7 +128,13 @@ class SpeedTester:
                         self.reset_game()
                         x, y = pygame.mouse.get_pos()
                 elif event.type == pygame.KEYDOWN:
-                    if self.active and not self.end:
+                    if event.key == K_ESCAPE:
+                        self.running = False
+                        sys.exit(0)
+                    elif self.active and self.end:
+                        if event.key == pygame.K_TAB:
+                            self.reset_game()
+                    elif self.active and not self.end:
                         if event.key == pygame.K_RETURN:
                             print(self.input_text)
                             self.print_results(self.screen)
@@ -137,6 +143,8 @@ class SpeedTester:
                             self.end = True
                         elif event.key == pygame.K_BACKSPACE:
                             self.input_text = self.input_text[:-1]
+                        elif event.key == pygame.K_TAB:
+                            self.reset_game()
                         else:
                             try:
                                 self.input_text += event.unicode
