@@ -1,8 +1,4 @@
-import pygame
-from pygame.locals import *
-import sys
-import time
-import random
+from load_imports import *
 
 
 class SpeedTester:
