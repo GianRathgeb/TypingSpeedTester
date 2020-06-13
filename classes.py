@@ -105,9 +105,9 @@ class MainWindow:
         msg = "Typing Speed Test"
         self.print_text(self.screen, msg, 150, 80, self.COLOR_HEADER)
         # Show image for settings
-        self.screen.blit(self.img_settings, (self.width - 750, self.height - 500))
+        self.screen.blit(self.img_settings, (0, 0))
         # Show image for closing
-        self.screen.blit(self.img_close, (self.width - 50, self.height - 500))
+        self.screen.blit(self.img_close, (self.width - 50, 0))
         # Draw the rectangle for input box
         pygame.draw.rect(self.screen, (255, 192, 25), (50, 250, 650, 50), 2)
         # Draw the sentence string
@@ -194,6 +194,8 @@ class SettingsWindow(MainWindow):
 
     def load_window(self):
         self.settings.blit(self.img_background, (0, 0))
+        # Show image for closing
+        self.screen.blit(self.img_close, (self.width - 50, 0))
         pygame.display.update()
         time.sleep(0.25)
         # TODO check if code below could replaced by self.__init__()
@@ -203,4 +205,24 @@ class SettingsWindow(MainWindow):
     def run(self):
         self.load_window()
         self.running = True
-        time.sleep(5)
+        while self.running:
+            self.clock = pygame.time.Clock()
+            pygame.display.update()
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    self.running = False
+                    sys.exit(0)
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    x, y = pygame.mouse.get_pos()
+                    if self.width - 50 <= x <= self.width and y <= 50:
+                        self.running = False
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == K_ESCAPE:
+                        self.running = False
+                    else:
+                        try:
+                            self.input_text += event.unicode
+                        except:
+                            pass
+            pygame.display.update()
+        self.clock.tick(60)
