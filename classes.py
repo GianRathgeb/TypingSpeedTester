@@ -1,7 +1,7 @@
 from load_imports import *
 
 
-class SpeedTester:
+class MainWindow:
     def __init__(self):
         self.width = 750
         self.height = 500
@@ -18,6 +18,7 @@ class SpeedTester:
         self.COLOR_HEADER = (255, 213, 102)
         self.COLOR_TEXT = (240, 240, 240)
         self.COLOR_RESULT = (255, 70, 70)
+        self.background_img_path = 'img/bg/geometrical.jpg'
 
         # Init variable used redefined later in the code
         self.time_img = ''
@@ -32,7 +33,7 @@ class SpeedTester:
         self.img_open = pygame.image.load('img/loading-screens/loading-gif.gif')
         self.img_open = pygame.transform.scale(self.img_open, (self.width, self.height))
 
-        self.background = pygame.image.load('img/bg/geometrical.jpg')
+        self.background = pygame.image.load(self.background_img_path)
         # Next line not needed for all images
         # self.background = pygame.transform.scale(self.background, (self.height, self.width))
         self.screen = pygame.display.set_mode((self.width, self.height))
@@ -85,10 +86,7 @@ class SpeedTester:
             self.print_text(screen, "Reset", self.height - 70, 26, (100, 100, 100))
             pygame.display.update()
 
-    def reset_game(self):
-        self.screen.blit(self.img_open, (0, 0))
-        pygame.display.update()
-        time.sleep(0.25)
+    def reset_screen(self):
         # TODO check if code below could replaced by self.__init__()
         self.reset = False
         self.end = False
@@ -116,6 +114,13 @@ class SpeedTester:
         self.print_text(self.screen, self.word, 200, 28, self.COLOR_TEXT)
         pygame.display.update()
 
+    def reset_game(self):
+        self.screen.blit(self.img_open, (0, 0))
+        pygame.display.update()
+        time.sleep(0.25)
+        self.reset_screen()
+
+
     def run(self):
         self.reset_game()
         self.running = True
@@ -142,7 +147,13 @@ class SpeedTester:
                         self.reset_game()
                         x, y = pygame.mouse.get_pos()
                     if 0 <= x <= 50 and y <= 50:
-                        print("Settings clicked")
+                        screen_settings = SettingsWindow(300, 300, self.background_img_path)
+                        screen_settings.run()
+                        self.width = 750
+                        self.height = 500
+                        self.screen = pygame.display.set_mode((self.width, self.height))
+                        pygame.display.set_caption('Typing Speed Tester')
+                        self.reset_screen()
                     if 700 <= x <= 750 and y <= 50:
                         self.running = False
                         sys.exit(0)
@@ -166,3 +177,30 @@ class SpeedTester:
                                 pass
             pygame.display.update()
         self.clock.tick(60)
+
+
+class SettingsWindow(MainWindow):
+    def __init__(self, width, height, background_img):
+        super().__init__()
+        self.width = width
+        self.height = height
+
+        pygame.display.set_caption('Settings')
+
+        self.img_background = pygame.image.load(background_img)
+        self.img_background = pygame.transform.scale(self.img_background, (self.width, self.height))
+
+        self.settings = pygame.display.set_mode((self.width, self.height))
+
+    def load_window(self):
+        self.settings.blit(self.img_background, (0, 0))
+        pygame.display.update()
+        time.sleep(0.25)
+        # TODO check if code below could replaced by self.__init__()
+        self.reset = False
+        self.end = False
+
+    def run(self):
+        self.load_window()
+        self.running = True
+        time.sleep(5)
