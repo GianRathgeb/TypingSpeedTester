@@ -25,9 +25,13 @@ class SpeedTester:
 
         self.background = pygame.image.load('img/bg/geometrical.jpg')
         # Next line not needed for all images
-        #self.background = pygame.transform.scale(self.background, (self.height, self.width))
+        # self.background = pygame.transform.scale(self.background, (self.height, self.width))
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption('Typing Speed Tester')
+
+        self.img_settings = pygame.image.load("img/settings_button.png")
+        self.img_settings = pygame.transform.scale(self.img_settings, (50, 50))
+
 
         # Init variable used redefined later in the code
         self.time_img = ''
@@ -69,7 +73,7 @@ class SpeedTester:
             self.result = "Time: {} secs Accuracy: {}%  Wpm: {}".format(str(round(self.time_total)), str(round(self.accuracy)), str(round(self.wpm)))
             # Draw icon image
             self.time_img = pygame.image.load('img/icon.png')
-            self.time_img = pygame.transform.scale(self.time_img, (150,150))
+            self.time_img = pygame.transform.scale(self.time_img, (150, 150))
             # Screen.blit(self.time_img, (80,320))
             screen.blit(self.time_img, (self.width / 2 - 75, self.height - 140))
             self.print_text(screen, "Reset", self.height - 70, 26, (100, 100, 100))
@@ -91,11 +95,13 @@ class SpeedTester:
         self.word = self.sentence_get()
         if not self.word:
             self.reset_game()
-        # drawing heading
+        # Drawing header
         self.screen.fill((0, 0, 0))
         self.screen.blit(self.background, (0, 0))
         msg = "Typing Speed Test"
         self.print_text(self.screen, msg, 80, 80, self.COLOR_HEADER)
+        # Show image for settings
+        self.screen.blit(self.img_settings, (self.width - 50, self.height - 500))
         # Draw the rectangle for input box
         pygame.draw.rect(self.screen, (255, 192, 25), (50, 250, 650, 50), 2)
         # Draw the sentence string
