@@ -88,6 +88,7 @@ class MainWindow:
 
     def reset_screen(self):
         # TODO check if code below could replaced by self.__init__()
+        self.active = False
         self.reset = False
         self.end = False
         self.input_text = ''
@@ -120,7 +121,6 @@ class MainWindow:
         time.sleep(0.25)
         self.reset_screen()
 
-
     def run(self):
         self.reset_game()
         self.running = True
@@ -148,13 +148,13 @@ class MainWindow:
                         x, y = pygame.mouse.get_pos()
                     if 0 <= x <= 50 and y <= 50:
                         screen_settings = SettingsWindow(300, 300, self.background_img_path)
-                        screen_settings.run()
+                        screen_settings.run_settings()
                         self.width = 750
                         self.height = 500
                         self.screen = pygame.display.set_mode((self.width, self.height))
                         pygame.display.set_caption('Typing Speed Tester')
                         self.reset_screen()
-                    if 700 <= x <= 750 and y <= 50:
+                    if self.width - 50 <= x <= self.width and y <= 50:
                         self.running = False
                         sys.exit(0)
                 elif event.type == pygame.KEYDOWN:
@@ -175,6 +175,10 @@ class MainWindow:
                                 self.input_text += event.unicode
                             except:
                                 pass
+                    elif not self.active:
+                        self.start_time = time.time()
+                        self.active = True
+                        self.input_text += event.unicode
             pygame.display.update()
         self.clock.tick(60)
 
@@ -202,7 +206,7 @@ class SettingsWindow(MainWindow):
         self.reset = False
         self.end = False
 
-    def run(self):
+    def run_settings(self):
         self.load_window()
         self.running = True
         while self.running:
