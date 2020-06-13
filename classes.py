@@ -66,7 +66,6 @@ class SpeedTester:
             # Calculate words per minute
             self.wpm = len(self.input_text) * 60 / (5 * self.time_total)
             self.end = True
-            print(self.time_total)
             self.result = "Time: {} secs Accuracy: {}%  Wpm: {}".format(str(round(self.time_total)), str(round(self.accuracy)), str(round(self.wpm)))
             # Draw icon image
             self.time_img = pygame.image.load('img/icon.png')
@@ -74,13 +73,12 @@ class SpeedTester:
             # Screen.blit(self.time_img, (80,320))
             screen.blit(self.time_img, (self.width / 2 - 75, self.height - 140))
             self.print_text(screen, "Reset", self.height - 70, 26, (100, 100, 100))
-            print(self.result)
             pygame.display.update()
 
     def reset_game(self):
         self.screen.blit(self.img_open, (0, 0))
         pygame.display.update()
-        time.sleep(1)
+        time.sleep(0.25)
         # TODO check if code below could replaced by self.__init__()
         self.reset = False
         self.end = False
@@ -137,9 +135,7 @@ class SpeedTester:
                         self.reset_game()
                     elif self.active and not self.end:
                         if event.key == pygame.K_RETURN:
-                            print(self.input_text)
                             self.print_results(self.screen)
-                            print(self.result)
                             self.print_text(self.screen, self.result, 350, 28, self.COLOR_RESULT)
                             self.end = True
                         elif event.key == pygame.K_BACKSPACE:
