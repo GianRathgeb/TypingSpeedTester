@@ -19,7 +19,16 @@ class SpeedTester:
         self.COLOR_TEXT = (240, 240, 240)
         self.COLOR_RESULT = (255, 70, 70)
 
+        # Init variable used redefined later in the code
+        self.time_img = ''
+        self.running = False
+        self.clock = ''
+
+        # Init pygame
         pygame.init()
+
+        # Loading images
+
         self.img_open = pygame.image.load('img/loading-screens/loading-gif.gif')
         self.img_open = pygame.transform.scale(self.img_open, (self.width, self.height))
 
@@ -29,14 +38,11 @@ class SpeedTester:
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption('Typing Speed Tester')
 
-        self.img_settings = pygame.image.load("img/settings_button.png")
+        self.img_settings = pygame.image.load("img/buttons/settings_button.png")
         self.img_settings = pygame.transform.scale(self.img_settings, (50, 50))
 
-
-        # Init variable used redefined later in the code
-        self.time_img = ''
-        self.running = False
-        self.clock = ''
+        self.img_close = pygame.image.load("img/buttons/close_button.png")
+        self.img_close = pygame.transform.scale(self.img_close, (50, 50))
 
     def print_text(self, screen, message, y, font_size, font_color):
         font = pygame.font.Font(None, font_size)
@@ -99,9 +105,11 @@ class SpeedTester:
         self.screen.fill((0, 0, 0))
         self.screen.blit(self.background, (0, 0))
         msg = "Typing Speed Test"
-        self.print_text(self.screen, msg, 80, 80, self.COLOR_HEADER)
+        self.print_text(self.screen, msg, 150, 80, self.COLOR_HEADER)
         # Show image for settings
-        self.screen.blit(self.img_settings, (self.width - 50, self.height - 500))
+        self.screen.blit(self.img_settings, (self.width - 750, self.height - 500))
+        # Show image for closing
+        self.screen.blit(self.img_close, (self.width - 50, self.height - 500))
         # Draw the rectangle for input box
         pygame.draw.rect(self.screen, (255, 192, 25), (50, 250, 650, 50), 2)
         # Draw the sentence string
@@ -133,6 +141,11 @@ class SpeedTester:
                     if 310 <= x <= 510 and y >= 390 and self.end:
                         self.reset_game()
                         x, y = pygame.mouse.get_pos()
+                    if 0 <= x <= 50 and y <= 50:
+                        print("Settings clicked")
+                    if 700 <= x <= 750 and y <= 50:
+                        self.running = False
+                        sys.exit(0)
                 elif event.type == pygame.KEYDOWN:
                     if event.key == K_ESCAPE:
                         self.running = False
