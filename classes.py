@@ -61,7 +61,8 @@ class SpeedTester:
                 except:
                     pass
                 # Formula for accuracy: (correct characters) / (total characters in sentence) x 100
-            self.accuracy = correct_chars / len(self.word) * 100
+                # https://www.researchgate.net/post/How_can_I_calculate_the_accuracy
+            self.accuracy= correct_chars / len(self.word) * 100
             # Calculate words per minute
             self.wpm = len(self.input_text) * 60 / (5 * self.time_total)
             self.end = True
