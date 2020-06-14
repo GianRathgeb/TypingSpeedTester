@@ -6,3 +6,7 @@ Modules:
     sys
     time
     random
+
+
+Build File:
+pyinstaller --onefile -w main.py

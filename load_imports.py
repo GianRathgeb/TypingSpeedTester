@@ -7,3 +7,6 @@ import random
 
 # Loading classes
 import classes
+
+# Including Dir's
+import data

@@ -18,7 +18,7 @@ class MainWindow:
         self.COLOR_HEADER = (255, 213, 102)
         self.COLOR_TEXT = (240, 240, 240)
         self.COLOR_RESULT = (255, 70, 70)
-        self.background_img_path = 'img/bg/geometrical.jpg'
+        self.background_img_path = './data/img/bg/geometrical.jpg'
 
         # Init variable used redefined later in the code
         self.time_img = ''
@@ -30,7 +30,7 @@ class MainWindow:
 
         # Loading images
 
-        self.img_open = pygame.image.load('img/loading-screens/loading-gif.gif')
+        self.img_open = pygame.image.load('./data/img/loading-screens/loading-gif.gif')
         self.img_open = pygame.transform.scale(self.img_open, (self.width, self.height))
 
         self.background = pygame.image.load(self.background_img_path)
@@ -39,21 +39,21 @@ class MainWindow:
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption('Typing Speed Tester')
 
-        self.img_settings = pygame.image.load("img/buttons/settings_button.png")
+        self.img_settings = pygame.image.load("./data/img/buttons/settings_button.png")
         self.img_settings = pygame.transform.scale(self.img_settings, (50, 50))
 
-        self.img_close = pygame.image.load("img/buttons/close_button.png")
+        self.img_close = pygame.image.load("./data/img/buttons/close_button.png")
         self.img_close = pygame.transform.scale(self.img_close, (50, 50))
 
     def print_text(self, screen, message, y, font_size, font_color):
-        font = pygame.font.Font(None, font_size)
+        font = pygame.font.Font("./data/fonts/arial.ttf", font_size)
         text = font.render(message, 1, font_color)
         text_rectangle = text.get_rect(center=(self.width/2, y))
         screen.blit(text, text_rectangle)
         pygame.display.update()
 
     def sentence_get(self):
-        f = open('sentences.txt').read()
+        f = open('./data/sentences.txt').read()
         sentences = f.split('\n')
         sentence = random.choice(sentences)
         return sentence
@@ -79,7 +79,7 @@ class MainWindow:
             self.end = True
             self.result = "Time: {} secs Accuracy: {}%  Wpm: {}".format(str(round(self.time_total)), str(round(self.accuracy)), str(round(self.wpm)))
             # Draw icon image
-            self.time_img = pygame.image.load('img/icon.png')
+            self.time_img = pygame.image.load('./data/img/icon.png')
             self.time_img = pygame.transform.scale(self.time_img, (150, 150))
             # Screen.blit(self.time_img, (80,320))
             screen.blit(self.time_img, (self.width / 2 - 75, self.height - 140))
@@ -100,11 +100,13 @@ class MainWindow:
         self.word = self.sentence_get()
         if not self.word:
             self.reset_game()
+        print("Got sentences")
         # Drawing header
         self.screen.fill((0, 0, 0))
         self.screen.blit(self.background, (0, 0))
         msg = "Typing Speed Test"
-        self.print_text(self.screen, msg, 150, 80, self.COLOR_HEADER)
+        print("Test")
+        self.print_text(self.screen, msg, 150, 60, self.COLOR_HEADER)
         # Show image for settings
         self.screen.blit(self.img_settings, (0, 0))
         # Show image for closing
@@ -149,8 +151,8 @@ class MainWindow:
                     if 0 <= x <= 50 and y <= 50:
                         screen_settings = SettingsWindow(300, 300, self.background_img_path)
                         screen_settings.run_settings()
-                        self.width = 750
-                        self.height = 500
+                        self.width = self.width
+                        self.height = self.height
                         self.screen = pygame.display.set_mode((self.width, self.height))
                         pygame.display.set_caption('Typing Speed Tester')
                         self.reset_screen()
@@ -188,6 +190,8 @@ class SettingsWindow(MainWindow):
         super().__init__()
         self.width = width
         self.height = height
+        self.reset = False
+        self.end = False
 
         pygame.display.set_caption('Settings')
 
@@ -202,9 +206,7 @@ class SettingsWindow(MainWindow):
         self.screen.blit(self.img_close, (self.width - 50, 0))
         pygame.display.update()
         time.sleep(0.25)
-        # TODO check if code below could replaced by self.__init__()
-        self.reset = False
-        self.end = False
+
 
     def run_settings(self):
         self.load_window()
