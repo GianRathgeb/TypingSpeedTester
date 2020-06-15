@@ -18,7 +18,7 @@ class MainWindow:
         self.COLOR_HEADER = (255, 213, 102)
         self.COLOR_TEXT = (240, 240, 240)
         self.COLOR_RESULT = (255, 70, 70)
-        self.background_img_path = './data/img/bg/geometrical.jpg'
+        self.background_img_path = './data/img/bg/default.jpg'
 
         # Init variable used redefined later in the code
         self.time_img = ''
@@ -100,12 +100,10 @@ class MainWindow:
         self.word = self.sentence_get()
         if not self.word:
             self.reset_game()
-        print("Got sentences")
         # Drawing header
         self.screen.fill((0, 0, 0))
         self.screen.blit(self.background, (0, 0))
         msg = "Typing Speed Test"
-        print("Test")
         self.print_text(self.screen, msg, 150, 60, self.COLOR_HEADER)
         # Show image for settings
         self.screen.blit(self.img_settings, (0, 0))
@@ -149,7 +147,7 @@ class MainWindow:
                         self.reset_game()
                         x, y = pygame.mouse.get_pos()
                     if 0 <= x <= 50 and y <= 50:
-                        screen_settings = SettingsWindow(300, 300, self.background_img_path)
+                        screen_settings = SettingsWindow(500, 300, self.background_img_path)
                         screen_settings.run_settings()
                         self.width = self.width
                         self.height = self.height
@@ -204,8 +202,12 @@ class SettingsWindow(MainWindow):
         self.settings.blit(self.img_background, (0, 0))
         # Show image for closing
         self.screen.blit(self.img_close, (self.width - 50, 0))
+        self.print_text(self.screen, "Settings", 40, 40, self.COLOR_HEADER)
         pygame.display.update()
         time.sleep(0.25)
+
+    def print_text(self, screen, message, y, font_size, font_color):
+        super().print_text(screen, message, y, font_size, font_color)
 
 
     def run_settings(self):
