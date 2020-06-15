@@ -1,5 +1,5 @@
 # TypingSpeedTester
-###Typing Speed Tester written in Python. 
+### Typing Speed Tester written in Python. 
 
 
 Modules:
