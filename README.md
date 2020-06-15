@@ -11,7 +11,7 @@ Modules:
 
 
 Build File:
-```shell script
+```console
 pip install --upgrade pyinstaller
 pyinstaller --onefile -w main.py
 ```
