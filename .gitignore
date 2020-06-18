@@ -1,5 +1,10 @@
 # Ignored Python Files/Directories
+
+# IDES
 # Not needed in Pycharm but in VSCode
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Pycharm
+venv/
