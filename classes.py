@@ -3,6 +3,7 @@ from load_imports import *
 
 class MainWindow:
     def __init__(self):
+        self.language = "EN"
         self.width = 750
         self.height = 500
         self.reset = True
@@ -18,7 +19,7 @@ class MainWindow:
         self.COLOR_HEADER = (255, 213, 102)
         self.COLOR_TEXT = (240, 240, 240)
         self.COLOR_RESULT = (255, 70, 70)
-        self.background_img_path = './data/img/bg/default.jpg'
+        self.background_img_path = './data/img/bg/geometrical.jpg'
 
         # Init variable used redefined later in the code
         self.time_img = ''
@@ -149,6 +150,7 @@ class MainWindow:
                     if 0 <= x <= 50 and y <= 50:
                         screen_settings = SettingsWindow(500, 300, self.background_img_path)
                         screen_settings.run_settings()
+                        self.language = screen_settings.language
                         self.width = self.width
                         self.height = self.height
                         self.screen = pygame.display.set_mode((self.width, self.height))
@@ -203,6 +205,9 @@ class SettingsWindow(MainWindow):
         # Show image for closing
         self.screen.blit(self.img_close, (self.width - 50, 0))
         self.print_text(self.screen, "Settings", 40, 40, self.COLOR_HEADER)
+        self.print_text(self.screen, "Language: DE/EN", 80, 20, self.COLOR_TEXT)
+        self.screen.fill((0, 0, 0), (100, 100, 350, 50))
+        pygame.draw.rect(self.screen, (255, 192, 25), (100, 100, 350, 50), 2)
         pygame.display.update()
         time.sleep(0.25)
 
@@ -215,22 +220,38 @@ class SettingsWindow(MainWindow):
         self.running = True
         while self.running:
             self.clock = pygame.time.Clock()
+            self.screen.fill((0, 0, 0), (100, 100, 350, 50))
+            self.print_text(self.screen, self.input_text.upper(), 124, 26, (250, 250, 250))
             pygame.display.update()
             for event in pygame.event.get():
                 if event.type == QUIT:
+                    if self.input_text.upper() == "DE":
+                        self.language = "DE"
+                    elif self.input_text.upper() == "EN":
+                        self.language = "EN"
                     self.running = False
                     sys.exit(0)
                 elif event.type == pygame.MOUSEBUTTONUP:
                     x, y = pygame.mouse.get_pos()
                     if self.width - 50 <= x <= self.width and y <= 50:
+                        if self.input_text.upper() == "DE":
+                            self.language = "DE"
+                        elif self.input_text.upper() == "EN":
+                            self.language = "EN"
+                        else:
+                            self.language = "EN"
                         self.running = False
                 elif event.type == pygame.KEYDOWN:
                     if event.key == K_ESCAPE:
                         self.running = False
+                    elif event.key == pygame.K_BACKSPACE:
+                        self.input_text = self.input_text[:-1]
                     else:
                         try:
                             self.input_text += event.unicode
                         except:
                             pass
+                    if len(self.input_text) == 3:
+                        self.input_text = self.input_text[:-1]
             pygame.display.update()
         self.clock.tick(60)
