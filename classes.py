@@ -8,13 +8,20 @@ class MainWindow:
             fileContent = csv.reader(csvfile, delimiter=';')
             next(fileContent)
             # Import Settings
-            settingsImport = []
+            self.settingsImport = []
             for line in fileContent:
-                settingsImport.append(line)
-        self.settings = dict(settingsImport)
+                self.settingsImport.append(line)
+        self.settings = dict(self.settingsImport)
         self.language = self.settings["LANG"]
-        print(self.language)
-        # Default Settings
+        # TODO Check why it's not working with the colors (They are's strings)
+        self.COLOR_HEADER = self.settings["COLOR_HEADER"]
+        self.COLOR_TEXT = self.settings["COLOR_TEXT"]
+        self.COLOR_RESULT = self.settings["COLOR_RESULT"]
+        print(self.COLOR_TEXT)
+        print(self.COLOR_HEADER)
+        print(self.COLOR_RESULT)
+
+        # Default Settings (Hard coded)
         self.width = 750
         self.height = 500
         self.reset = True
@@ -27,9 +34,7 @@ class MainWindow:
         self.result = 'Time:0 Accuracy:0 % Wpm:0'
         self.wpm = 0
         self.end = False
-        self.COLOR_HEADER = (255, 213, 102)
-        self.COLOR_TEXT = (240, 240, 240)
-        self.COLOR_RESULT = (255, 70, 70)
+
         self.background_img_path = './data/img/bg/geometrical.jpg'
 
         # Init variable used redefined later in the code
