@@ -4,6 +4,7 @@ from pygame.locals import *
 import sys
 import time
 import random
+import csv
 
 # Loading classes
 import classes

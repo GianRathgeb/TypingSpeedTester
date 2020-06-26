@@ -3,7 +3,18 @@ from load_imports import *
 
 class MainWindow:
     def __init__(self):
-        self.language = "EN"
+        # Read settings from file Settings.csv
+        with open("./data/settings.csv", "rt") as csvfile:
+            fileContent = csv.reader(csvfile, delimiter=';')
+            next(fileContent)
+            # Import Settings
+            settingsImport = []
+            for line in fileContent:
+                settingsImport.append(line)
+        self.settings = dict(settingsImport)
+        self.language = self.settings["LANG"]
+        print(self.language)
+        # Default Settings
         self.width = 750
         self.height = 500
         self.reset = True
@@ -205,7 +216,7 @@ class SettingsWindow(MainWindow):
         # Show image for closing
         self.screen.blit(self.img_close, (self.width - 50, 0))
         self.print_text(self.screen, "Settings", 40, 40, self.COLOR_HEADER)
-        self.print_text(self.screen, "Language: DE/EN", 80, 20, self.COLOR_TEXT)
+        self.print_text(self.screen, "Language: EN/DE", 80, 20, self.COLOR_TEXT)
         self.screen.fill((0, 0, 0), (100, 100, 350, 50))
         pygame.draw.rect(self.screen, (255, 192, 25), (100, 100, 350, 50), 2)
         pygame.display.update()
