@@ -3,27 +3,16 @@ from load_imports import *
 
 class MainWindow:
     def __init__(self):
-        # Read settings from file Settings.csv
-        with open("./data/settings.csv", "rt") as csvfile:
-            fileContent = csv.reader(csvfile, delimiter=';')
-            next(fileContent)
-            # Import Settings
-            self.settingsImport = []
-            for line in fileContent:
-                self.settingsImport.append(line)
-        self.settings = dict(self.settingsImport)
+        self.settings = ''
+        self.get_settings()
+
+        # Settings from file
         self.language = self.settings["LANG"]
-        # TODO Check why it's not working with the colors (They are's strings)
-        self.COLOR_HEADER = self.settings["COLOR_HEADER"]
-        self.COLOR_TEXT = self.settings["COLOR_TEXT"].replace("(", "").replace(")", "").replace("'", "").split(", ")
-        for x in self.COLOR_TEXT: x = int(x)
-        self.COLOR_TEXT = tuple(self.COLOR_TEXT)
-        self.COLOR_RESULT = self.settings["COLOR_RESULT"]
-        print(self.COLOR_TEXT)
-        print(self.COLOR_HEADER)
-        print(self.COLOR_RESULT)
 
         # Default Settings (Hard coded)
+        self.COLOR_HEADER = (255, 213, 102)
+        self.COLOR_TEXT = (240, 240, 240)
+        self.COLOR_RESULT = (255, 70, 70)
         self.width = 750
         self.height = 500
         self.reset = True
@@ -36,13 +25,16 @@ class MainWindow:
         self.result = 'Time:0 Accuracy:0 % Wpm:0'
         self.wpm = 0
         self.end = False
-
         self.background_img_path = './data/img/bg/geometrical.jpg'
+        self.languageContent = ''
 
         # Init variable used redefined later in the code
         self.time_img = ''
         self.running = False
         self.clock = ''
+
+        self.import_language()
+
 
         # Init pygame
         pygame.init()
@@ -63,6 +55,40 @@ class MainWindow:
 
         self.img_close = pygame.image.load("./data/img/buttons/close_button.png")
         self.img_close = pygame.transform.scale(self.img_close, (50, 50))
+
+    def get_settings(self):
+        # Read settings from file Settings.csv
+        with open("./data/settings.csv", "rt") as csvfile:
+            file_content = csv.reader(csvfile, delimiter=';')
+            # Import Settings
+            settings_import = []
+            for line in file_content:
+                print(line)
+                settings_import.append(line)
+        self.settings = dict(settings_import)
+
+    # Change settings e.g. Language
+    def change_settings(self, option, value):
+        with open("./data/settings.csv") as input_file, open("./data/settings_temp.csv", "w", newline='') as output_file:
+            settings_content = csv.reader(input_file, delimiter=';')
+            writer = csv.writer(output_file)
+            for line in settings_content:
+                if line[0] == str(option):
+                    writer.writerow([str(option) + ';' + str(value)])
+                else:
+                    writer.writerow([str(line[0]) + ';' + str(line[1])])
+        os.remove("./data/settings.csv")
+        os.rename("./data/settings_temp.csv", "./data/settings.csv")
+
+    def import_language(self):
+        # Loading Language
+        with open("./data/LANG/" + str(self.language) + "/LANG.csv", "rt") as langFile:
+            lang_file_content = csv.reader(langFile, delimiter=';')
+            # Import Settings
+            language_import = []
+            for line in lang_file_content:
+                language_import.append(line)
+        self.languageContent = dict(language_import)
 
     def print_text(self, screen, message, y, font_size, font_color):
         font = pygame.font.Font("./data/fonts/arial.ttf", font_size)
@@ -122,7 +148,7 @@ class MainWindow:
         # Drawing header
         self.screen.fill((0, 0, 0))
         self.screen.blit(self.background, (0, 0))
-        msg = "Typing Speed Test"
+        msg = self.languageContent["title"]
         self.print_text(self.screen, msg, 150, 60, self.COLOR_HEADER)
         # Show image for settings
         self.screen.blit(self.img_settings, (0, 0))
@@ -168,11 +194,11 @@ class MainWindow:
                     if 0 <= x <= 50 and y <= 50:
                         screen_settings = SettingsWindow(500, 300, self.background_img_path)
                         screen_settings.run_settings()
-                        self.language = screen_settings.language
+                        self.change_settings("LANG", screen_settings.language)
                         self.width = self.width
                         self.height = self.height
                         self.screen = pygame.display.set_mode((self.width, self.height))
-                        pygame.display.set_caption('Typing Speed Tester')
+                        pygame.display.set_caption(self.languageContent["title"])
                         self.reset_screen()
                     if self.width - 50 <= x <= self.width and y <= 50:
                         self.running = False
@@ -244,20 +270,22 @@ class SettingsWindow(MainWindow):
             for event in pygame.event.get():
                 if event.type == QUIT:
                     if self.input_text.upper() == "DE":
-                        self.language = "DE"
+                        self.language = "LANG_DE"
                     elif self.input_text.upper() == "EN":
-                        self.language = "EN"
+                        self.language = "LANG_EN"
+                    else:
+                        self.language = "LANG_EN"
                     self.running = False
                     sys.exit(0)
                 elif event.type == pygame.MOUSEBUTTONUP:
                     x, y = pygame.mouse.get_pos()
                     if self.width - 50 <= x <= self.width and y <= 50:
                         if self.input_text.upper() == "DE":
-                            self.language = "DE"
+                            self.language = "LANG_DE"
                         elif self.input_text.upper() == "EN":
-                            self.language = "EN"
+                            self.language = "LANG_EN"
                         else:
-                            self.language = "EN"
+                            self.language = "LANG_EN"
                         self.running = False
                 elif event.type == pygame.KEYDOWN:
                     if event.key == K_ESCAPE:

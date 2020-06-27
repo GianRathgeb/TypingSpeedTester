@@ -5,6 +5,7 @@ import sys
 import time
 import random
 import csv
+import os
 
 # Loading classes
 import classes
