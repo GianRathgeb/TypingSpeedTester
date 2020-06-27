@@ -15,7 +15,9 @@ class MainWindow:
         self.language = self.settings["LANG"]
         # TODO Check why it's not working with the colors (They are's strings)
         self.COLOR_HEADER = self.settings["COLOR_HEADER"]
-        self.COLOR_TEXT = self.settings["COLOR_TEXT"]
+        self.COLOR_TEXT = self.settings["COLOR_TEXT"].replace("(", "").replace(")", "").replace("'", "").split(", ")
+        for x in self.COLOR_TEXT: x = int(x)
+        self.COLOR_TEXT = tuple(self.COLOR_TEXT)
         self.COLOR_RESULT = self.settings["COLOR_RESULT"]
         print(self.COLOR_TEXT)
         print(self.COLOR_HEADER)
