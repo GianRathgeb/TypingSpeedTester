@@ -1,1 +1,5 @@
 "title";"Tippgeschwindigkeits Tester"
+"output_results";"Zeit: {} Sekunden Genauigkeit: {}%  Wpm: {}"
+"reset";"Nochmals?"
+"settings_title";"Einstellungen"
+"select_lang";"Sprache: DE/EN"

@@ -1,1 +1,5 @@
 "title";"Typing Speed Tester"
+"output_results";"Time: {} secs Accuracy: {}%  Wpm: {}"
+"reset";"Reset?"
+"settings_title";"Settings"
+"select_lang";"Language: EN/DE"
