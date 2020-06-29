@@ -100,7 +100,7 @@ class MainWindow:
         pygame.display.update()
 
     def sentence_get(self):
-        f = open('./data/sentences.txt').read()
+        f = open('./data/sentences/' + str(self.language) + ".txt").read()
         sentences = f.split('\n')
         sentence = random.choice(sentences)
         return sentence
