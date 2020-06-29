@@ -14,7 +14,6 @@ class MainWindow:
         self.languageContent = ''
         self.import_language()
 
-
         # Default Settings (Hard coded)
         self.COLOR_HEADER = (255, 213, 102)
         self.COLOR_TEXT = (240, 240, 240)
@@ -261,7 +260,6 @@ class SettingsWindow(MainWindow):
 
     def print_text(self, screen, message, y, font_size, font_color):
         super().print_text(screen, message, y, font_size, font_color)
-
 
     def run_settings(self):
         self.load_window()
