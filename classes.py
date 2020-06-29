@@ -7,6 +7,14 @@ class MainWindow:
         self.settings = ''
         self.get_settings()
 
+        # Settings from file
+        self.language = self.settings["LANG"]
+
+        # Get language
+        self.languageContent = ''
+        self.import_language()
+
+
         # Default Settings (Hard coded)
         self.COLOR_HEADER = (255, 213, 102)
         self.COLOR_TEXT = (240, 240, 240)
@@ -50,13 +58,6 @@ class MainWindow:
 
         self.img_close = pygame.image.load("./data/img/buttons/close_button.png")
         self.img_close = pygame.transform.scale(self.img_close, (50, 50))
-
-        # Settings from file
-        self.language = self.settings["LANG"]
-
-        # Get language
-        self.languageContent = ''
-        self.import_language()
 
     def get_settings(self):
         # Read settings from file Settings.csv
